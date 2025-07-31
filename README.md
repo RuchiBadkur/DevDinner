@@ -2,7 +2,7 @@
 
 **DevDinner** is a fun, food-themed frontend app that turns your coding concepts into deliciously structured "dish" formats using **Google Gemini API** and **Unsplash**. From prompts to final code, it walks you through a bite-sized recipe of frontend logic in a playful and visual manner.
 
-[🚀 Live Demo](https://your-live-link.netlify.app) &nbsp;&nbsp;|&nbsp;&nbsp; [📂 GitHub Repo](https://github.com/your-username/devdinner)
+[🚀 Live Demo](https://devdinner.netlify.app/) &nbsp;&nbsp;|&nbsp;&nbsp; [📂 GitHub Repo](https://github.com/your-username/devdinner)
 
 ---
 
