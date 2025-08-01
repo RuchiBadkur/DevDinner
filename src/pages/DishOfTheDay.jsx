@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import copy from 'copy-to-clipboard';
 import { generateDishContent } from '../utils/gemini';
 import SectionDivider from '../components/SectionDivider';
 
@@ -42,6 +42,22 @@ async function fetchUnsplashImage(query) {
   }
 }
 
+function CopyButton({ textToCopy }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    copy(textToCopy);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
+
+  return (
+    <button onClick={handleCopy} className="text-gray hover:text-black ml-2">
+      {copied ? <Check size={16} /> : <Copy size={16} />}
+    </button>
+  );
+}
+
 const DishOfTheDay = () => {
   const [appType, setAppType] = useState('weather app');
   const [techStack, setTechStack] = useState('React & OpenWeatherMap API');
@@ -52,7 +68,6 @@ const DishOfTheDay = () => {
   const [error, setError] = useState('');
   const [images, setImages] = useState(staticImages);
   const [imgLoading, setImgLoading] = useState(false);
-  const [copied, setCopied] = useState(false);
 
   const prompt = `Build a ${appType} using ${techStack} explained like making a ${dish}.`;
 
@@ -87,7 +102,6 @@ const DishOfTheDay = () => {
     setLoading(true);
     setError('');
     setSectionContent(null);
-    setCopied(false);
 
     try {
       await loadAllImages(valid);
@@ -236,11 +250,7 @@ const DishOfTheDay = () => {
                 <p className="text-sm font-semibold text-orange-600 flex justify-between items-center">
                   {s.codeTitle}
                   {s.key === 'code' && sectionContent?.fullCode && (
-                    <CopyToClipboard text={sectionContent.fullCode} onCopy={() => setCopied(true)}>
-                      <button className="text-gray hover:text-black ml-2">
-                        {copied ? <Check size={16} /> : <Copy size={16} />}
-                      </button>
-                    </CopyToClipboard>
+                    <CopyButton textToCopy={sectionContent.fullCode} />
                   )}
                 </p>
                 <pre className="bg-gray-900 text-white text-sm rounded-lg overflow-auto p-4 max-h-[300px] whitespace-pre-wrap shadow-md">
