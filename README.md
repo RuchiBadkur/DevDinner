@@ -25,23 +25,25 @@ Each dish is a complete breakdown of a frontend concept using AI-generated expla
 - **React** + **Vite**
 - **Framer Motion** – for smooth animations
 - **Tailwind CSS** – for fast UI styling
-- **React Icons** – emoji-style icons
-- **Google Gemini API** – generates content in JSON format
-- **Unsplash API** – serves related images for your code “dishes”
-- **localStorage** – to save and revisit your past creations
+- **Lucide Icons** – crisp modern icons
+- **Google Gemini API** – generates structured code content
+- **Unsplash API** – serves dish-themed images
+- **localStorage** – save & revisit your creations
+- **Netlify Functions** – secure Gemini API integration
 
 ---
 
 ## 🧠 Features
 
-- 🍳 Generate a coding “dish” by simply entering a prompt
-- 📸 Get a beautiful Unsplash image based on your dish name
-- 🧾 View AI-generated full code, concepts, summary, etc.
-- 💾 Save your dish to the DevCookbook (stored locally)
-- 🔍 Search through saved dishes
-- 📋 Copy the entire dish to your clipboard
-- 📱 Fully responsive & mobile-ready
-- ⚠️ Error handling with user-friendly messages
+- 🍳 Generate a coding “dish” from just a prompt
+- 📸 Enjoy Unsplash-powered visuals for each concept
+- 💻 Get full working code, concepts, and a summary
+- 📋 One-click copy to clipboard
+- 💾 Save dishes to your **DevCookbook**
+- 🔍 Search through previously saved meals
+- ☁️ **Netlify Functions** protect your API keys
+- 📱 100% Responsive UI
+- ⚠️ Elegant error handling
 
 ---
 
@@ -56,15 +58,18 @@ src/
 │   ├── Navbar.jsx           # Top navbar with emoji tooltips
 │   └── Footer.jsx           # Footer with credits and links
 ├── utils/
-│   ├── gemini.js            # Google Gemini API setup
-│   └── unsplash.js          # Unsplash API fetch logic
+│   ├── gemini.js            # Calls Netlify serverless function
+│   └── unsplash.js          # Unsplash image fetcher
 ├── assets/                  # Static images, logos, etc.
-└── App.jsx                  # Main app entry point
+├── App.jsx                  # Main app entry
+└── functions/
+    └── gemini.js            # Netlify function for Gemini API
 ```
-## 📦 Setup & Installation
 
-```bash
-# 1. Clone the repo
+<section class="max-w-4xl mx-auto p-6">
+  <h2 class="text-2xl font-bold mb-4">📦 Setup & Installation</h2>
+  <pre class="bg-gray-100 p-4 rounded text-sm overflow-x-auto mb-6">
+<code># 1. Clone the repo
 git clone https://github.com/your-username/devdinner.git
 
 # 2. Navigate to the project folder
@@ -76,38 +81,58 @@ npm install
 # 4. Add your environment variables
 touch .env
 
-# .env file:
-VITE_GEMINI_API_KEY=your_gemini_api_key
+# .env
 VITE_UNSPLASH_ACCESS_KEY=your_unsplash_access_key
+GEMINI_API_KEY=your_gemini_api_key   # Used inside Netlify Function
 
-# 5. Start the app
-npm run dev
+# 5. Deploy Netlify functions locally
+npm run dev</code>
+  </pre>
 
-## 📖 Inspiration
+  <div class="bg-yellow-100 text-yellow-800 p-4 rounded mb-6">
+    ⚠️ <strong>Accidentally pushed your .env file?</strong><br />
+    Immediately delete the exposed key from Gemini/Unsplash dashboard.<br />
+    Regenerate a new key and update your <code>.env</code>.<br />
+    Add <code>.env</code> to <code>.gitignore</code> (if not already):
+  </div>
 
-This project was inspired by the idea that learning frontend development should feel like assembling your favorite burger — one layer at a time. That’s why each code snippet is served like a meal: visual, structured, and deeply satisfying!
+  <pre class="bg-gray-100 p-4 rounded text-sm overflow-x-auto mb-6">
+<code>.env</code>
+  </pre>
 
----
+  <h2 class="text-2xl font-bold mb-4">🛰️ Netlify Integration</h2>
+  <p class="mb-4">
+    This app uses <strong>Netlify Functions</strong> to securely call Gemini API without exposing your key in the frontend.
+  </p>
+  <ul class="list-disc list-inside mb-4">
+    <li><code>/netlify/functions/gemini.js</code> contains the serverless logic</li>
+    <li>Environment variables are injected securely from Netlify Dashboard</li>
+    <li>Update <code>vite.config.js</code> and use proxying if testing locally</li>
+  </ul>
+  <p class="mb-6">🔒 Your Gemini key is now safe — no longer bundled with frontend!</p>
 
-## 💡 Future Plans
+  <h2 class="text-2xl font-bold mb-4">📖 Inspiration</h2>
+  <p class="mb-6">
+    DevDinner was born from the idea that learning frontend should feel like assembling a burger — one tasty layer at a time. Instead of boring documentation, you get a structured walkthrough wrapped in metaphor, code, and imagery.
+  </p>
 
-- 🌍 **User Authentication** (save dishes in cloud)  
-- 🧑‍🍳 **Public "Recipe Book"** of shared dishes  
-- 🏆 **Badges & gamification** features  
-- 🌐 **Internationalization (i18n)**  
+  <h2 class="text-2xl font-bold mb-4">💡 Future Plans</h2>
+  <ul class="list-disc list-inside mb-6">
+    <li>🌍 User Authentication (cloud-saved dishes)</li>
+    <li>🧑‍🍳 Public "Recipe Book" to explore others' dishes</li>
+    <li>🏆 Gamified badges & contributions</li>
+    <li>🌐 Multilingual support (i18n)</li>
+  </ul>
 
----
+  <h2 class="text-2xl font-bold mb-4">🙋‍♀️ About the Creator</h2>
+  <p class="mb-2">
+    Made with ❤️ by <strong>Ruchi Badkur</strong><br />
+    Frontend developer with a passion for UI/UX, storytelling, and coding metaphors 🍕✨
+  </p>
 
-## 🙋‍♀️ About the Creator
-
-Made with ❤️ by **Ruchi Badkur**  
-A self-taught frontend developer who loves UI/UX, storytelling, and of course — coding metaphors 🍕
-
----
-
-## 📫 Contact
-
-- [LinkedIn](https://www.linkedin.com/in/ruchi-badkur/)   
-- [Portfolio](https://whimsical-ruchi-portfolio.netlify.app/)
-
----
+  <p class="mt-4">
+    📫 Contact: 
+    <a href="https://www.linkedin.com/in/ruchi-badkur" class="text-blue-600 underline" target="_blank">LinkedIn</a> |
+    <a href="https://your-portfolio-link.com" class="text-blue-600 underline" target="_blank">Portfolio</a>
+  </p>
+</section>
