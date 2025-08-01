@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 
@@ -61,8 +61,27 @@ const SectionDivider = ({ icon }) => (
   </div>
 );
 
+const Spinner = () => (
+  <div className="flex justify-center items-center min-h-[200px]">
+    <motion.div
+      className="w-12 h-12 border-4 border-orange-400 border-t-transparent rounded-full animate-spin"
+      initial={{ rotate: 0 }}
+      animate={{ rotate: 360 }}
+      transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+    />
+  </div>
+);
+
 const Intro = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsLoading(false), 1000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (isLoading) return <Spinner />;
 
   return (
     <div>
@@ -148,6 +167,7 @@ const Intro = () => {
                   <img
                     src={s.img}
                     alt={s.analogyTitle}
+                    loading="lazy"
                     className="w-full max-w-[260px] md:max-w-[300px] mx-auto rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
                   />
                   <h4 className="text-lg font-bold text-gray-800">{s.analogyTitle}</h4>

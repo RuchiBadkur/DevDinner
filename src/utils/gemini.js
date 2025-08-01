@@ -1,36 +1,26 @@
-// src/utils/gemini.js
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-const GeminiModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
+// ✅ FILE: src/utils/gemini.js
 export async function generateDishContent(prompt) {
-  const result = await GeminiModel.generateContent(
-    `You are a playful coding chef. Respond in JSON.
+  const res = await fetch("/.netlify/functions/gemini", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt }),
+  });
 
-Prompt: "${prompt}"
+  const { raw } = await res.json();
+  // console.log("🔍 Gemini raw response:", raw);
 
-Respond in this structure:
-
-{
-  "fullCode": "full code here",
-  "concepts": ["concept1", "concept2", "concept3"],
-  "deepDive": {
-    "concept": "concept name",
-    "explanation": "detailed explanation"
-  },
-  "summary": "final thoughts or summary"
-}`
-  );
-
-  const response = await result.response;
-  const text = await response.text();
   try {
-    const cleaned = text.trim().match(/\{[\s\S]*\}/)?.[0];
-    return JSON.parse(cleaned);
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      throw new Error("No valid JSON block found in Gemini response.");
+    }
+    const jsonString = jsonMatch[0];
+    const parsed = JSON.parse(jsonString);
+
+    return parsed;
   } catch (e) {
-    console.error("Gemini response:", text);
+    console.error("❌ Failed to parse Gemini response:", e.message);
+    console.error("⛔ Raw JSON String:", raw);
     throw new Error("Failed to parse Gemini response");
   }
 }
